@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ментальне здоров'я</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        .navbar { 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    z-index: 9999;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); 
+    background-color: #2c3e50;
+}
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+}
+
+footer {
+    background-color: #2c3e50;
+    padding: 30px 20px; /* Р—РјРµРЅС€РµРЅС– РІС–РґСЃС‚СѓРїРё РґР»СЏ С„СѓС‚РµСЂР° */
+    color: #ecf0f1;
+    font-size: 14px;
+    max-width: 800px; /* Р—РјРµРЅС€РµРЅР° С€РёСЂРёРЅР° С„СѓС‚РµСЂР° */
+    margin: 0 auto; /* Р¦РµРЅС‚СЂСѓС”РјРѕ С„СѓС‚РµСЂ */
+    border-radius: 15px; /* Р—Р°РєСЂСѓРіР»РµРЅС– РєСѓС‚Рё */
+    box-sizing: border-box;
+    position: relative; /* Р”Р»СЏ РїРѕР·РёС†С–СЋРІР°РЅРЅСЏ Р»РѕРіРѕС‚РёРїСѓ */
+}
+
+footer img {
+    width: 50px; /* Р—РјРµРЅС€РµРЅРёР№ СЂРѕР·РјС–СЂ Р»РѕРіРѕС‚РёРїСѓ */
+    height: 50px;
+    margin-right: 15px;
+    position: absolute;
+    top: 15px; /* Р—РјРµРЅС€РµРЅР° РІС–РґСЃС‚Р°РЅСЊ РІС–Рґ РІРµСЂС…РЅСЊРѕРіРѕ РєСЂР°СЋ */
+    left: 20px;
+}
+
+footer h1 {
+    font-size: 20px; /* Р—РјРµРЅС€РµРЅРёР№ СЂРѕР·РјС–СЂ РЅР°Р·РІРё */
+    margin: 0;
+    position: absolute;
+    top: 35px; /* Р—СЃСѓРІ РІРЅРёР· РґР»СЏ РЅР°Р·РІРё, С‰РѕР± РІРѕРЅР° РЅРµ РїРµСЂРµРєСЂРёРІР°Р»Р° Р»РѕРіРѕС‚РёРї */
+    left: 80px; /* Р’РёСЂС–РІРЅСЋРІР°РЅРЅСЏ Р· Р»РѕРіРѕС‚РёРїРѕРј */
+    color: #ecf0f1;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: 60px; /* Р—РјРµРЅС€РµРЅР° РІС–РґСЃС‚Р°РЅСЊ РїС–СЃР»СЏ Р»РѕРіРѕС‚РёРїСѓ */
+}
+
+.footer-column {
+    width: 48%;
+    margin-bottom: 15px; /* Р—РјРµРЅС€РµРЅРёР№ РЅРёР¶РЅС–Р№ РІС–РґСЃС‚СѓРї */
+    text-align: left; /* Р’РёСЂС–РІРЅСЋРІР°РЅРЅСЏ С‚РµРєСЃС‚Сѓ РІ РєРѕР»РѕРЅС†С– */
+}
+
+footer p {
+    text-align: left;
+    font-size: 12px; /* Р—РјРµРЅС€РµРЅРёР№ СЂРѕР·РјС–СЂ С€СЂРёС„С‚Сѓ */
+    margin-top: 20px;
+    padding-left: 10px; /* Р’С–РґСЃС‚СѓРї Р·Р»С–РІР° */
+}
+
+footer .footer-column h3 {
+    font-size: 16px; /* РўСЂРѕС€РєРё Р±С–Р»СЊС€РёР№ СЂРѕР·РјС–СЂ Р·Р°РіРѕР»РѕРІРєС–РІ */
+    color: #ecf0f1;
+    margin-bottom: 5px; /* Р—РјРµРЅС€РµРЅРёР№ РІС–РґСЃС‚СѓРї РјС–Р¶ Р·Р°РіРѕР»РѕРІРєРѕРј С‚Р° С‚РµРєСЃС‚РѕРј */
+}
+
+footer .footer-column p {
+    font-size: 14px;
+    color: #bdc3c7;
+}
+
+@media (max-width: 768px) {
+    footer {
+        padding: 20px 10px; /* Р—РјРµРЅС€РµРЅС– РІС–РґСЃС‚СѓРїРё РґР»СЏ РјРѕР±С–Р»СЊРЅРёС… РїСЂРёСЃС‚СЂРѕС—РІ */
+    }
+
+    footer img {
+        width: 40px;
+        height: 40px;
+    }
+
+    footer h1 {
+        font-size: 18px;
+    }
+
+    .footer-column {
+        width: 100%;
+    }
+
+    footer p {
+        font-size: 12px;
+    }
+}
+
+/* РђРЅС–РјР°С†С–СЏ РґР»СЏ РєРЅРѕРїРѕРє */
+.footer-column p a {
+    transition: all 0.3s ease;
+}
+
+.footer-column p a:hover {
+    color: #3498db;
+    transform: scale(1.05);
+}
+
+h1.fs-1 {
+    font-size: 4rem; /* Р—Р±С–Р»СЊС€СѓС”РјРѕ СЂРѕР·РјС–СЂ С€СЂРёС„С‚Сѓ */
+}
+
+        /* Загальні стилі */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 36px;
+            color:#1f6f8b;
+            margin-top: 40px;
+        }
+
+        h3 {
+            color: #1f6f8b;
+            font-size: 1.25rem;
+            font-weight: bold;
+        }
+
+        /* Стилізація таблиці */
+        .table {
+            margin: 40px auto;
+            max-width: 1000px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .table th, .table td {
+            padding: 15px;
+            text-align: left;
+        }
+
+        .table th {
+            background-color: #1f6f8b;
+            color: white;
+        }
+
+        .table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Адаптивні стилі */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 28px;
+            }
+
+            .table {
+                margin: 20px;
+            }
+
+            .table th, .table td {
+                padding: 10px;
+            }
+        }
+
+        /* Кнопки */
+        .btn {
+            background-color: #1f6f8b;
+            color: white;
+            border-radius: 25px;
+            padding: 10px 20px;
+            border: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #155a7d;
+        }
+
+        /* Картки */
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+            overflow: hidden;
+        }
+
+        .card img {
+            border-bottom: 3px solid #1f6f8b;
+            transition: transform 0.3s ease-in-out;
+            width: 100%;
+        }
+
+        .card img:hover {
+            transform: scale(1.05);
+        }
+
+        .card-body {
+            padding: 20px;
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="row"> 
+        <nav class="navbar navbar-expand-lg bg-body-tertiary"> 
+            <div class="container-fluid"> 
+              <a class="navbar-brand" href="index.html"> 
+                <div class="logo1"> 
+                <img src="Logo.png" class="d-block" style="width: 60px; height: 60px;" alt="Логотип"> 
+                </div> 
+            </a> 
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation"> 
+                <span class="navbar-toggler-icon"></span> 
+              </button> 
+              <div class="collapse navbar-collapse" id="navbarNavDropdown"> 
+                <ul class="navbar-nav"> 
+                    <li class="nav-item dropdown"> 
+                        <a class="nav-link dropdown-toggle" href="extreme.html" role="button" data-bs-toggle="dropdown" aria-expanded="false"> 
+                          Екстренні ситуації 
+                        </a> 
+                        <ul class="dropdown-menu"> 
+                          <li><a class="dropdown-item" href="rules.html">Правила поведінки</a></li> 
+                          <li><a class="dropdown-item" href="cloth.html">Тактичний одяг</a></li> 
+                          <li><a class="dropdown-item" href="med.hnml">Перша домедична допомога</a></li> 
+                          <li><a class="dropdown-item" href="bomb.html">Вибухові присторії</a></li> 
+                        </ul> 
+                    </li> 
+                    <li class="nav-item dropdown"> 
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"> 
+                          Ментальне здоров'я 
+                        </a> 
+                        <ul class="dropdown-menu"> 
+                          <li><a class="dropdown-item" href="health.html">Що таке ментальне здоров'я?</a></li> 
+                          <li><a class="dropdown-item" href="film.html">Фільми та серіали</a></li> 
+                          <li><a class="dropdown-item" href="book.html">Книги та комікси</a></li> 
+                          <li><a class="dropdown-item" href="music.html">Музика</a></li> 
+                        </ul> 
+                    </li> 
+                    <li class="nav-item dropdown"> 
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"> 
+                          Фізичне здоров'я 
+                        </a> 
+                        <ul class="dropdown-menu"> 
+                          <li><a class="dropdown-item" href="sport.html">Руханки</a></li> 
+                          <li><a class="dropdown-item" href="food.html">Правила харчування</a></li> 
+                        </ul> 
+                    </li> 
+                    <li class="nav-item"> 
+                        <a class="nav-link" href="educ.html">Освіта</a> 
+                    </li> 
+                    <li class="nav-item"> 
+                        <a class="nav-link" href="about.html">Про нас</a> 
+                    </li> 
+                </ul> 
+              </div> 
+            </div> 
+          </nav> 
+    </div>
+    <div class="container py-5">
+        <h1 class="text-center text-succes mb-4 fw-bold mt-5">Що таке ментальне здоров'я і як за ним слідкувати</h1> 
+
+    <!-- Таблиця з інформацією -->
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">№</th>
+                <th scope="col">Питання</th>
+                <th scope="col">Відповідь</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td><h3>Як слідкувати за ментальним здоров'ям?</h3></td>
+                <td><p>Ментальне здоров'я – це стан психічного благополуччя, яке дозволяє людям справлятися з життєвими стресами, реалізовувати свої здібності, навчатися й працювати. Підтримувати власне ментальне здоров’я можна самостійно, вживаючи здорові звички та стежачи за емоційним станом.</p></td>
+            </tr>
+            <tr>
+                <th scope="row">2</th>
+                <td><h3>Ознаки проблем з ментальним здоров'ям?</h3></td>
+                <td>
+                    <ul>
+                        <li>Відчуття смутку або пригніченості без конкретної причини;</li>
+                        <li>Постійні помітні зміни настрою від дуже хорошого до дуже поганого;</li>
+                        <li>Постійне або надмірне хвилювання через стресові події;</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">3</th>
+                <td><h3>Що входить до ментального здоров’я?</h3>
+                </h3></td>
+                <td>
+                <ul>
+                    <li>Розуміє свої емоційні стани і може керувати ними;</li>
+                    <li>Відкрита до навчання та розвитку;</li>
+                    <li>Приймає незалежні рішення;</li>
+                    <li>Ставиться позитивно до себе;</li>
+                    <li>Вміє пристосовуватися до нових умов життя;</li>
+                    <li>Отримує задоволення під життя;</li>
+                </ul>
+            </td>
+            </tr>
+
+
+            <tr>
+                <th scope="row">4</th>
+                <td><h3>Як зберегти ментальне здоров’я під час війни?</h3>
+                </h3></td>
+                <td>
+                <ul>
+                    <li>Не сидіть на місці, не чекайте чогось, обов’язково робіть те, що можете робити.;</li>
+                    <li>Мінімізуйте перегляд новин.Інформаційна атака є найбільш травматичною в ситуації воєнної загрози, оскільки масова паніка негативно впливає на адекватність реакцій людини.;</li>
+                    <li>Використовуйте техніки релаксації.Це можуть бути дихальні техніки, медитація, свіже повітря, ходіння вулицею, мінімальне фітнес-навантаження – все, що пов’язане з розслабленням, щоб організм набирався сил та перемикався.;</li>
+                    <li>Використовуйте техніку подяки.
+                        Дякуйте за те, що у вас є їжа, місце під дахом, зв'язок із рідними, ви живі і з вами все відносно гаразд. У такі складні часи наші життєві цінності кардинально змінюються і після використання цієї техніки Ви починаєте більше цінувати те, що маєте.;</li>
+                </ul>
+            </td>
+            </tr>
+        </tbody>
+    </table>
+  
+    
+
+
+   
+    <!-- Карусель -->
+    <p class="fs-1 text-center fw-bolt"></p> 
+ 
+  <div class="carousel-container d-flex justify-content-center align-items-center" style="height: 50vh;"> 
+      <div id="carouselExample" class="carousel slide w-50 h-50"> 
+          <div class="carousel-inner"> 
+              <div class="carousel-item active"> 
+                  <img src="https://lh4.googleusercontent.com/proxy/IZXkkVSDc4SfLR03-hzPBqkyUsAv8XQ5xq8yTbaufiuqvYG_Zx1gwkfxPBadH61GUuECfDIbp4efbFOGzkGpcNznqFPP0JTLvuL_RkdWSzs" class="d-block w-100 h-100" alt="Картинка"> 
+              </div> 
+              <div class="carousel-item"> 
+                  <img src="https://mgc-pd.kr.ua/wp-content/uploads/2024/04/poradi-vinnichanam-yak-vberegti-mentalne-zdorovya-0_2de14e46-1024x545.jpg" class="d-block w-150 h-300" alt="Картинка"> 
+              </div> 
+              <div class="carousel-item"> 
+                  <img src="https://cdn.meta.ua/meta_news/46/01002r8s-4643_1280x720.png" class="d-block w-100 h-100" alt="Картинка"> 
+              </div> 
+          </div> 
+   
+          <!-- Стрілочки на зображеннях --> 
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev"> 
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span> 
+              <span class="visually-hidden">Попередній</span> 
+          </button> 
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next"> 
+              <span class="carousel-control-next-icon" aria-hidden="true"></span> 
+              <span class="visually-hidden">Наступний</span> 
+          </button> 
+      </div> 
+  </div>
+  </div>
+  
+
+
+    <!-- Картки -->
+    <div class="card-group mt-3">
+        <div class="card">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4TU2h0Gwr-VMcXtov6RNBxCLnMAKo3rWsQA&s" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Спадковість психічних розладів</h5>
+                <p class="card-text">Говорити про спадкову природу розладів некоректно. Людина справді може успадкувати певні генетичні маркери, які можуть свідчити про ймовірність розвитку розладу. Але це не означає, що людина його обов’язково матиме. Важливими чинниками у виникненні психічних розладів є вплив зовнішнього середовища, наявність хронічних стресів та травмуючих подій. Тому не можна стверджувати, що психічні розлади виникають тільки через те, що людина їх успадкувала.</p>
+                <p class="card-text"><small class="text-body-secondary"></small></p>
+            </div>
+        </div>
+        <div class="card">
+            <img src="https://apau.org.ua/wp-content/uploads/2023/05/%D1%81%D0%B8%D0%BD%D0%B4%D1%80%D0%BE%D0%BC-%D0%B2%D1%96%D0%B4%D0%BA%D0%BB%D0%B0%D0%B4%D0%B5%D0%BD%D0%BE%D0%B3%D0%BE-%D0%B6%D0%B8%D1%82%D1%82%D1%8F.jpg" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Психічно нестабільні люди в суспільстві</h5>
+                <p class="card-text">Більшість людей із проблемами психічного здоров’я, включно з тими, хто має психотичні стани або розлади, не схильні до жорстокої поведінки. Більш ймовірно, що люди із психічними розладами самі можуть стати жертвами насильства, ніж вчинити насильство щодо інших.</p>
+                <p class="card-text"><small class="text-body-secondary"></small></p>
+            </div>
+        </div>
+        <div class="card">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUncuBcvu4Ww5On7Lg2JgiYRM_fgLpjQkf1Q&s" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Причини виникнення психічний розладів</h5>
+                <p class="card-text">Кожен третій українець може зіткнутися із психічним захворюванням протягом життя. Це відбувається через низку причин: хронічні стреси, травматичні події, важкі умови розвитку у дитинстві, органічні порушення мозку та інше. Тож, найімовірніше, серед ваших знайомих також є люди, які вже пережили або саме зараз долають певний розлад психічного здоров’я.</p>
+                <p class="card-text"><small class="text-body-secondary"></small></p>
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>
+
+
+        <div class="row mt-3"> 
+            <div class="container"> 
+              <!-- Ваш вміст сторінки тут --> 
+          </div> 
+       
+          <footer> 
+              <!-- Логотип і назва в лівому верхньому куті футера --> 
+              <img src="logo.png" alt="Логотип"> 
+              <h1>TeensInDanger</h1> 
+              <div class="footer-container"> 
+                  <div class="footer-column"> 
+                      <h3>Контактна інформація</h3> 
+                      <p>Адреса: вул. Малинова, 1, Львів, Україна</p> 
+                      <p>Телефон: <a href="tel:+380994670464">+380 99 46 70 464</a></p> 
+                  </div> 
+                  <div class="footer-column"> 
+                      <h3>Номери екстрених служб</h3> 
+                      <p>Поліція: <a href="tel:102">102</a></p> 
+                      <p>Пожежна служба: <a href="tel:101">101</a></p> 
+                      <p>Швидка допомога: <a href="tel:103">103</a></p> 
+                      <p>Служба газу: <a href="tel:104">104</a></p> 
+                      <p>Психологічна допомога: <a href="tel:0800211444">0800 211 444</a></p> 
+                  </div> 
+              </div> 
+       
+              <!-- Виведення тексту "Всі права захищені" зліва --> 
+              <p>&copy; 2025 TeensInDanger. Всі права захищені.</p> 
+          </footer> 
+          </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

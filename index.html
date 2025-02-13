@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <style>
+      .navbar { 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    z-index: 9999;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); 
+    background-color: #2c3e50;
+}
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+}
+
+footer {
+    background-color: #2c3e50;
+    padding: 30px 20px; /* Р—РјРµРЅС€РµРЅС– РІС–РґСЃС‚СѓРїРё РґР»СЏ С„СѓС‚РµСЂР° */
+    color: #ecf0f1;
+    font-size: 14px;
+    max-width: 800px; /* Р—РјРµРЅС€РµРЅР° С€РёСЂРёРЅР° С„СѓС‚РµСЂР° */
+    margin: 0 auto; /* Р¦РµРЅС‚СЂСѓС”РјРѕ С„СѓС‚РµСЂ */
+    border-radius: 15px; /* Р—Р°РєСЂСѓРіР»РµРЅС– РєСѓС‚Рё */
+    box-sizing: border-box;
+    position: relative; /* Р”Р»СЏ РїРѕР·РёС†С–СЋРІР°РЅРЅСЏ Р»РѕРіРѕС‚РёРїСѓ */
+}
+
+footer img {
+    width: 50px; /* Р—РјРµРЅС€РµРЅРёР№ СЂРѕР·РјС–СЂ Р»РѕРіРѕС‚РёРїСѓ */
+    height: 50px;
+    margin-right: 15px;
+    position: absolute;
+    top: 15px; /* Р—РјРµРЅС€РµРЅР° РІС–РґСЃС‚Р°РЅСЊ РІС–Рґ РІРµСЂС…РЅСЊРѕРіРѕ РєСЂР°СЋ */
+    left: 20px;
+}
+
+footer h1 {
+    font-size: 20px; /* Р—РјРµРЅС€РµРЅРёР№ СЂРѕР·РјС–СЂ РЅР°Р·РІРё */
+    margin: 0;
+    position: absolute;
+    top: 35px; /* Р—СЃСѓРІ РІРЅРёР· РґР»СЏ РЅР°Р·РІРё, С‰РѕР± РІРѕРЅР° РЅРµ РїРµСЂРµРєСЂРёРІР°Р»Р° Р»РѕРіРѕС‚РёРї */
+    left: 80px; /* Р’РёСЂС–РІРЅСЋРІР°РЅРЅСЏ Р· Р»РѕРіРѕС‚РёРїРѕРј */
+    color: #ecf0f1;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: 60px; /* Р—РјРµРЅС€РµРЅР° РІС–РґСЃС‚Р°РЅСЊ РїС–СЃР»СЏ Р»РѕРіРѕС‚РёРїСѓ */
+}
+
+.footer-column {
+    width: 48%;
+    margin-bottom: 15px; /* Р—РјРµРЅС€РµРЅРёР№ РЅРёР¶РЅС–Р№ РІС–РґСЃС‚СѓРї */
+    text-align: left; /* Р’РёСЂС–РІРЅСЋРІР°РЅРЅСЏ С‚РµРєСЃС‚Сѓ РІ РєРѕР»РѕРЅС†С– */
+}
+
+footer p {
+    text-align: left;
+    font-size: 12px; /* Р—РјРµРЅС€РµРЅРёР№ СЂРѕР·РјС–СЂ С€СЂРёС„С‚Сѓ */
+    margin-top: 20px;
+    padding-left: 10px; /* Р’С–РґСЃС‚СѓРї Р·Р»С–РІР° */
+}
+
+footer .footer-column h3 {
+    font-size: 16px; /* РўСЂРѕС€РєРё Р±С–Р»СЊС€РёР№ СЂРѕР·РјС–СЂ Р·Р°РіРѕР»РѕРІРєС–РІ */
+    color: #ecf0f1;
+    margin-bottom: 5px; /* Р—РјРµРЅС€РµРЅРёР№ РІС–РґСЃС‚СѓРї РјС–Р¶ Р·Р°РіРѕР»РѕРІРєРѕРј С‚Р° С‚РµРєСЃС‚РѕРј */
+}
+
+footer .footer-column p {
+    font-size: 14px;
+    color: #bdc3c7;
+}
+
+@media (max-width: 768px) {
+    footer {
+        padding: 20px 10px; /* Р—РјРµРЅС€РµРЅС– РІС–РґСЃС‚СѓРїРё РґР»СЏ РјРѕР±С–Р»СЊРЅРёС… РїСЂРёСЃС‚СЂРѕС—РІ */
+    }
+
+    footer img {
+        width: 40px;
+        height: 40px;
+    }
+
+    footer h1 {
+        font-size: 18px;
+    }
+
+    .footer-column {
+        width: 100%;
+    }
+
+    footer p {
+        font-size: 12px;
+    }
+}
+
+/* РђРЅС–РјР°С†С–СЏ РґР»СЏ РєРЅРѕРїРѕРє */
+.footer-column p a {
+    transition: all 0.3s ease;
+}
+
+.footer-column p a:hover {
+    color: #3498db;
+    transform: scale(1.05);
+}
+
+h1.fs-1 {
+    font-size: 4rem; /* Р—Р±С–Р»СЊС€СѓС”РјРѕ СЂРѕР·РјС–СЂ С€СЂРёС„С‚Сѓ */
+}
+    </style>
+</head>
+<body>
+    
+  <div class="row">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="index.html">
+            <div class="logo1">
+            <img src="logo.png" class="d-block" style="width: 60px; height: 60px;" alt="Логотип">
+            </div>
+        </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Екстренні ситуації
+                    </a>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="rules.HTML">Правила поведінки</a></li>
+                      <li><a class="dropdown-item" href="cloth.html">Тактичний одяг</a></li>
+                      <li><a class="dropdown-item" href="med.html">Перша домедична допомога</a></li>
+                      <li><a class="dropdown-item" href="bomb.html">Вибухові пристрої</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Ментальне здоров'я
+                    </a>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="health.html">Що таке ментальне здоров'я?</a></li>
+                      <li><a class="dropdown-item" href="film.html">Фільми та серіали</a></li>
+                      <li><a class="dropdown-item" href="book.html">Книги та комікси</a></li>
+                      <li><a class="dropdown-item" href="music/music.html">Музика</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Фізичне здоров'я
+                    </a>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="sport.html">Руханки</a></li>
+                      <li><a class="dropdown-item" href="food.html">Правила харчування</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="educ.html">Освіта</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="about.html">Про нас</a>
+                </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+</div>
+
+<!-- Зроблено відступ для тексту під navbar -->
+<div class="container mt-5">
+    <div class="row text-center">
+      <b><h1 class="fs-1 text-center fw-bold mt-5">TeensInDanger</h1></b>
+    </div>
+    <div class="row text-center">
+        <p class="fs-6">Платформа-сайт для підлітків, як діяти в надзвичайних ситуаціях</p>
+    </div>
+</div>
+
+<div class="row text-center gy-4">
+    <p class="fs-3 fw-bold">Важливість інформації на сайті</p>
+</div>
+        <div class="row justify-content-center">
+            <div class="col-lg-3 col-md-6 col-sm-12 d-flex justify-content-center">
+                <div class="card" style="width: 18rem;">
+                    <img src="https://em-content.zobj.net/source/apple/391/raised-back-of-hand_medium-light-skin-tone_1f91a-1f3fc_1f3fc.png" class="card-img-top" alt="image">
+                    <div class="card-body">
+                        <h5 class="card-title">Правила поведінки</h5>
+                        <p class="card-text">Дотримання правил поведінки при надзвичайних ситуаціях є важливим для збереження життя та здоров'я.</p>
+                        <a href="rules.HTML" class="btn btn-primary">Перейти</a>
+                        
+                    </div>
+                </div>
+                
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12 d-flex justify-content-center">
+                <div class="card" style="width: 18rem;">
+                    <img src="https://em-content.zobj.net/source/apple/391/pilot-medium-light-skin-tone_1f9d1-1f3fc-200d-2708-fe0f.png" class="card-img-top" alt="image">
+                    <div class="card-body">
+                        <h5 class="card-title">Тактичний одяг</h5>
+                        <p class="card-text">Тактичний одяг забезпечує захист, функціональність та зручність у складних умовах.</p>
+                        <a href="cloth.html" class="btn btn-primary">Перейти</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12 d-flex justify-content-center">
+                <div class="card" style="width: 18rem;">
+                    <img src="https://em-content.zobj.net/source/apple/391/woman-health-worker-medium-light-skin-tone_1f469-1f3fc-200d-2695-fe0f.png" class="card-img-top" alt="image">
+                    <div class="card-body">
+                        <h5 class="card-title">Перша домедична допомога</h5>
+                        <p class="card-text">Перша домедична допомога рятує життя під час надзвичайних ситуацій.</p>
+                        <a href="med.html" class="btn btn-primary">Перейти</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12 d-flex justify-content-center">
+                <div class="card" style="width: 18rem;">
+                    <img src="https://em-content.zobj.net/source/apple/391/firecracker_1f9e8.png" class="card-img-top" alt="image">
+                    <div class="card-body">
+                        <h5 class="card-title">Вибухові пристрої</h5>
+                        <p class="card-text">Знання про вибухові пристрої необхідні для уникнення небезпеки та збереження життя.</p>
+                        <a href="bomb.html" class="btn btn-primary">Перейти</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+      <div class="row text-center gy-4">
+          <div class="col-lg-3 col-md-6 col-sm-12 d-flex justify-content-center">
+              <div class="card" style="width: 18rem;">
+                  <img src="https://em-content.zobj.net/source/apple/391/woman_running_facing_right_light_skin_tone_1f3c3-1f3fb-200d-2640-fe0f-200d-27a1-fe0f.png" class="card-img-top" alt="image">
+                  <div class="card-body">
+                      <h5 class="card-title">Що таке ментальне здоровʼя?</h5>
+                      <p class="card-text">Ментально здоровий стан у надзвичайних ситуаціях дозволяє ефективно справлятися зі стресом, приймати обдумані рішення та підтримувати себе та інших.</p>
+                      <a href="health.html" class="btn btn-primary">Перейти</a>
+                  </div>
+              </div>
+          </div>
+          <div class="col-lg-3 col-md-6 col-sm-12 d-flex justify-content-center">
+              <div class="card" style="width: 18rem;">
+                  <img src="https://em-content.zobj.net/source/apple/391/video-camera_1f4f9.png" class="card-img-top" alt="image">
+                  <div class="card-body">
+                      <h5 class="card-title">Фільми та серіали</h5>
+                      <p class="card-text">Фільми про надзвичайні ситуації можуть підвищувати обізнаність, моделювати поведінку та надихати на готовність до криз, але важливо вибирати якісний та реалістичний контент.</p>
+                      <a href="film.html" class="btn btn-primary">Перейти</a>
+                  </div>
+              </div>
+          </div>
+          <div class="col-lg-3 col-md-6 col-sm-12 d-flex justify-content-center">
+              <div class="card" style="width: 18rem;">
+                  <img src="https://em-content.zobj.net/source/apple/391/books_1f4da.png" class="card-img-top" alt="image">
+                  <div class="card-body">
+                      <h5 class="card-title">Книги та комікси</h5>
+                      <p class="card-text">Комікси та книги про надзвичайні ситуації, через візуальні історії, можуть навчати, надихати на стійкість та допомагати пережити травму.</p>
+                      <a href="book.html" class="btn btn-primary">Перейти</a>
+                  </div>
+              </div>
+          </div>
+          <div class="col-lg-3 col-md-6 col-sm-12 d-flex justify-content-center">
+              <div class="card" style="width: 18rem;">
+                  <img src="https://em-content.zobj.net/source/apple/391/musical-note_1f3b5.png" class="card-img-top" alt="image">
+                  <div class="card-body">
+                      <h5 class="card-title">Музика</h5>
+                      <p class="card-text">Музика про надзвичайні ситуації допомагає опрацювати емоції, знайти розраду та надихнути на єдність.</p>
+                      <a href="music.html" class="btn btn-primary">Перейти</a>
+                  </div>
+              </div>
+          </div>
+          
+
+
+          <div class="row text-center gy-4">
+            <div class="col-lg-3 col-md-6 col-sm-12 d-flex justify-content-center">
+              <div class="card" style="width: 18rem;">
+                <img src="https://em-content.zobj.net/source/apple/391/woman-in-lotus-position-light-skin-tone_1f9d8-1f3fb-200d-2640-fe0f.png" class="card-img-top" alt="image">
+                <div class="card-body">
+                    <h5 class="card-title">Руханки</h5>
+                    <p class="card-text">Руханки під час надзвичайних ситуацій можуть допомогти знизити рівень стресу, покращити концентрацію, підтримувати фізичне здоров'я та відновити відчуття контролю в умовах хаосу</p>
+                    <a href="sport.html" class="btn btn-primary">Перейти</a>
+                </div>
+            </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12 d-flex justify-content-center">
+                <div class="card" style="width: 18rem;">
+                  <img src="https://em-content.zobj.net/source/apple/391/broccoli_1f966.png" class="card-img-top" alt="image">
+                  <div class="card-body">
+                      <h5 class="card-title">Правильне харчування</h5>
+                      <p class="card-text">Правильне харчування важливе для підтримки фізичного та ментального здоров'я, забезпечення енергією та зміцнення імунітету</p>
+                      <a href="food.html" class="btn btn-primary">Перейти</a>
+                  </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12 d-flex justify-content-center">
+                <div class="card" style="width: 18rem;">
+                  <img src="https://em-content.zobj.net/source/apple/391/student-medium-skin-tone_1f9d1-1f3fd-200d-1f393.png" class="card-img-top" alt="image">
+                  <div class="card-body">
+                      <h5 class="card-title">Освіта</h5>
+                      <p class="card-text">Освіта в надзвичайних ситуаціях зберігає знання, дає надію і готує до майбутнього</p>
+                      <a href="educ.html" class="btn btn-primary">Перейти</a>
+                  </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12 d-flex justify-content-center">
+                <div class="card" style="width: 18rem;">
+                  <img src="https://em-content.zobj.net/source/apple/391/handshake_medium-light-skin-tone_1f91d-1f3fc_1f3fc.png" class="card-img-top" alt="image">
+                  <div class="card-body">
+                      <h5 class="card-title">Про нас</h5>
+                      <p class="card-text">Сторінка про кріейторів цього проєкту</p>
+                      <a href="about.html" class="btn btn-primary">Перейти</a>
+                  </div>
+                </div>
+            </div>
+          </div>
+
+
+
+
+          <div class="row"> 
+            <div class="container"> 
+              <!-- Ваш вміст сторінки тут --> 
+          </div> 
+       
+          <footer> 
+              <!-- Логотип і назва в лівому верхньому куті футера --> 
+              <img src="logo.png" alt="Логотип"> 
+              <h1>TeensInDanger</h1> 
+              <div class="footer-container"> 
+                  <div class="footer-column"> 
+                      <h3>Контактна інформація</h3> 
+                      <p>Адреса: вул. Малинова, 1, Львів, Україна</p> 
+                      <p>Телефон: <a href="tel:+380994670464">+380 99 46 70 464</a></p> 
+                  </div> 
+                  <div class="footer-column"> 
+                      <h3>Номери екстрених служб</h3> 
+                      <p>Поліція: <a href="tel:102">102</a></p> 
+                      <p>Пожежна служба: <a href="tel:101">101</a></p> 
+                      <p>Швидка допомога: <a href="tel:103">103</a></p> 
+                      <p>Служба газу: <a href="tel:104">104</a></p> 
+                      <p>Психологічна допомога: <a href="tel:0800211444">0800 211 444</a></p> 
+                  </div> 
+              </div> 
+       
+              <!-- Виведення тексту "Всі права захищені" зліва --> 
+              <p>&copy; 2025 TeensInDanger. Всі права захищені.</p> 
+          </footer> 
+          </div>
+            
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

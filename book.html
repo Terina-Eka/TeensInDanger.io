@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Книги та Комікси</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        /* Контейнер для карток */
+        .card-container {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            padding: 10px 0;
+            cursor: grab;
+            white-space: nowrap;
+        }
+
+        .card-container:active {
+            cursor: grabbing;
+        }
+
+        .card {
+            width: 18rem;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            height: auto; /* Висота картки розтягується по вмісту */
+            min-height: 600px; /* Мінімальна висота картки */
+        }
+
+        .card img {
+            width: 100%;
+            height: 470px; /* Обмежуємо висоту зображення */
+            object-fit: cover; /* Забезпечуємо правильне відображення зображення */
+        }
+
+        .card-body {
+            padding: 15px;
+            overflow: hidden; /* Перешкоджає виходу тексту за межі */
+            flex-grow: 1; /* Дозволяє тілу картки розтягуватися */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+
+        .btn-primary {
+            font-size: 1rem;
+            margin-top: auto; /* Кнопка внизу картки */
+        }
+
+        /* Стилі для акордеону */
+        .accordion-button {
+            text-align: left; /* Текст ліворуч, щоб було зрозуміло, що це заголовок */
+        }
+
+        .accordion-body {
+            max-height: 300px; /* Обмежуємо висоту для аккордеону */
+            overflow-y: auto; /* Додаємо прокручування при переповненні */
+        }
+
+        .navbar { 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    z-index: 9999;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); 
+    background-color: #2c3e50;
+}
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+}
+
+footer {
+    background-color: #2c3e50;
+    padding: 30px 20px; /* Р—РјРµРЅС€РµРЅС– РІС–РґСЃС‚СѓРїРё РґР»СЏ С„СѓС‚РµСЂР° */
+    color: #ecf0f1;
+    font-size: 14px;
+    max-width: 800px; /* Р—РјРµРЅС€РµРЅР° С€РёСЂРёРЅР° С„СѓС‚РµСЂР° */
+    margin: 0 auto; /* Р¦РµРЅС‚СЂСѓС”РјРѕ С„СѓС‚РµСЂ */
+    border-radius: 15px; /* Р—Р°РєСЂСѓРіР»РµРЅС– РєСѓС‚Рё */
+    box-sizing: border-box;
+    position: relative; /* Р”Р»СЏ РїРѕР·РёС†С–СЋРІР°РЅРЅСЏ Р»РѕРіРѕС‚РёРїСѓ */
+}
+
+footer img {
+    width: 50px; /* Р—РјРµРЅС€РµРЅРёР№ СЂРѕР·РјС–СЂ Р»РѕРіРѕС‚РёРїСѓ */
+    height: 50px;
+    margin-right: 15px;
+    position: absolute;
+    top: 15px; /* Р—РјРµРЅС€РµРЅР° РІС–РґСЃС‚Р°РЅСЊ РІС–Рґ РІРµСЂС…РЅСЊРѕРіРѕ РєСЂР°СЋ */
+    left: 20px;
+}
+
+footer h1 {
+    font-size: 20px; /* Р—РјРµРЅС€РµРЅРёР№ СЂРѕР·РјС–СЂ РЅР°Р·РІРё */
+    margin: 0;
+    position: absolute;
+    top: 35px; /* Р—СЃСѓРІ РІРЅРёР· РґР»СЏ РЅР°Р·РІРё, С‰РѕР± РІРѕРЅР° РЅРµ РїРµСЂРµРєСЂРёРІР°Р»Р° Р»РѕРіРѕС‚РёРї */
+    left: 80px; /* Р’РёСЂС–РІРЅСЋРІР°РЅРЅСЏ Р· Р»РѕРіРѕС‚РёРїРѕРј */
+    color: #ecf0f1;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: 60px; /* Р—РјРµРЅС€РµРЅР° РІС–РґСЃС‚Р°РЅСЊ РїС–СЃР»СЏ Р»РѕРіРѕС‚РёРїСѓ */
+}
+
+.footer-column {
+    width: 48%;
+    margin-bottom: 15px; /* Р—РјРµРЅС€РµРЅРёР№ РЅРёР¶РЅС–Р№ РІС–РґСЃС‚СѓРї */
+    text-align: left; /* Р’РёСЂС–РІРЅСЋРІР°РЅРЅСЏ С‚РµРєСЃС‚Сѓ РІ РєРѕР»РѕРЅС†С– */
+}
+
+footer p {
+    text-align: left;
+    font-size: 12px; /* Р—РјРµРЅС€РµРЅРёР№ СЂРѕР·РјС–СЂ С€СЂРёС„С‚Сѓ */
+    margin-top: 20px;
+    padding-left: 10px; /* Р’С–РґСЃС‚СѓРї Р·Р»С–РІР° */
+}
+
+footer .footer-column h3 {
+    font-size: 16px; /* РўСЂРѕС€РєРё Р±С–Р»СЊС€РёР№ СЂРѕР·РјС–СЂ Р·Р°РіРѕР»РѕРІРєС–РІ */
+    color: #ecf0f1;
+    margin-bottom: 5px; /* Р—РјРµРЅС€РµРЅРёР№ РІС–РґСЃС‚СѓРї РјС–Р¶ Р·Р°РіРѕР»РѕРІРєРѕРј С‚Р° С‚РµРєСЃС‚РѕРј */
+}
+
+footer .footer-column p {
+    font-size: 14px;
+    color: #bdc3c7;
+}
+
+@media (max-width: 768px) {
+    footer {
+        padding: 20px 10px; /* Р—РјРµРЅС€РµРЅС– РІС–РґСЃС‚СѓРїРё РґР»СЏ РјРѕР±С–Р»СЊРЅРёС… РїСЂРёСЃС‚СЂРѕС—РІ */
+    }
+
+    footer img {
+        width: 40px;
+        height: 40px;
+    }
+
+    footer h1 {
+        font-size: 18px;
+    }
+
+    .footer-column {
+        width: 100%;
+    }
+
+    footer p {
+        font-size: 12px;
+    }
+}
+
+/* РђРЅС–РјР°С†С–СЏ РґР»СЏ РєРЅРѕРїРѕРє */
+.footer-column p a {
+    transition: all 0.3s ease;
+}
+
+.footer-column p a:hover {
+    color: #3498db;
+    transform: scale(1.05);
+}
+
+h1.fs-1 {
+    font-size: 4rem; /* Р—Р±С–Р»СЊС€СѓС”РјРѕ СЂРѕР·РјС–СЂ С€СЂРёС„С‚Сѓ */
+}
+
+
+    </style>
+</head>
+<body>
+    <div class="row"> 
+        <nav class="navbar navbar-expand-lg bg-body-tertiary"> 
+            <div class="container-fluid"> 
+              <a class="navbar-brand" href="index.html"> 
+                <div class="logo1"> 
+                <img src="Logo.png" class="d-block" style="width: 60px; height: 60px;" alt="Логотип"> 
+                </div> 
+            </a> 
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation"> 
+                <span class="navbar-toggler-icon"></span> 
+              </button> 
+              <div class="collapse navbar-collapse" id="navbarNavDropdown"> 
+                <ul class="navbar-nav"> 
+                    <li class="nav-item dropdown"> 
+                        <a class="nav-link dropdown-toggle" href="extreme.html" role="button" data-bs-toggle="dropdown" aria-expanded="false"> 
+                          Екстренні ситуації 
+                        </a> 
+                        <ul class="dropdown-menu"> 
+                          <li><a class="dropdown-item" href="rules.html">Правила поведінки</a></li> 
+                          <li><a class="dropdown-item" href="cloth.html">Тактичний одяг</a></li> 
+                          <li><a class="dropdown-item" href="med.html">Перша домедична допомога</a></li> 
+                          <li><a class="dropdown-item" href="bomb.html">Вибухові присторії</a></li> 
+                        </ul> 
+                    </li> 
+                    <li class="nav-item dropdown"> 
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"> 
+                          Ментальне здоров'я 
+                        </a> 
+                        <ul class="dropdown-menu"> 
+                          <li><a class="dropdown-item" href="health.html">Що таке ментальне здоров'я?</a></li> 
+                          <li><a class="dropdown-item" href="film.html">Фільми та серіали</a></li> 
+                          <li><a class="dropdown-item" href="book.html">Книги та комікси</a></li> 
+                          <li><a class="dropdown-item" href="music.html">Музика</a></li> 
+                        
+                        </ul> 
+                    </li> 
+                    <li class="nav-item dropdown"> 
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"> 
+                          Фізичне здоров'я 
+                        </a> 
+                        <ul class="dropdown-menu"> 
+                          <li><a class="dropdown-item" href="sport.html">Руханки</a></li> 
+                          <li><a class="dropdown-item" href="food.html">Правила харчування</a></li> 
+                        
+                        </ul> 
+                    </li> 
+                    <li class="nav-item"> 
+                        <a class="nav-link" href="educ.html">Освіта</a> 
+                    </li> 
+                    <li class="nav-item"> 
+                        <a class="nav-link" href="about.html">Про нас</a> 
+                    </li> 
+                </ul> 
+              </div> 
+            </div> 
+          </nav> 
+    </div>
+
+    <div class="container py-5">
+      <h1 class="text-center text-primary mb-4 fw-bold mt-5">Книги та комікси</h1> 
+    <section id="books" class="mt-5">
+        <div class="card-container" id="dragContainer">
+            <div class="card">
+                <img src="https://book-ye.com.ua/upload/iblock/ac2/314a5390_2bfd_11ec_8152_0050568ef5e6_c74617cd_2c02_11ec_8152_0050568ef5e6.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title text-wrap">Різдвяна свинка</h5>
+                    <div class="accordion" id="accordionExample1">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne1" aria-expanded="false" aria-controls="collapseOne1">
+                                    Деталі книги
+                                </button>
+                            </h2>
+                            <div id="collapseOne1" class="accordion-collapse collapse" data-bs-parent="#accordionExample1">
+                                <div class="accordion-body text-wrap">
+                                    «Різдвяна свинка» Джоан Роулінг — це чарівна історія, що відправляє читачів у дивовижний світ фантазії, де теми втрати, дружби та надії переплітаються з чудесами та магією Різдва. Книга, опублікована видавництвом «А-БА-БА-ГА-ЛА-МА-ГА», розповідає про хлопчика Джека, який переживає глибоке горе через втрату своєї улюбленої іграшки — свинки на ім’я ГС. Для нього вона більше, ніж просто м'яка іграшка, вона — справжній друг і супутник з раннього дитинства.
+
+Але магія Різдва не дає Джеку здаватися і відкриває перед ним нову можливість. Його рятує Різдвяна Свинка, нова іграшка з особливою силою, здатна вивести хлопця в Країну Втрачених Речей. Тут Джек знайомиться з іншими загубленими предметами, кожен з яких має свою історію. Разом з Різдвяною Свинкою вони вирушають у подорож, прагнучи повернути ГС до Різдва, долаючи труднощі, перешкоди і змагаючись із часом.
+
+Ця книга не тільки про магію і дивовижні пригоди, але й про важливі життєві уроки: про дружбу, вміння приймати втрату і знаходити силу в собі, навіть коли здається, що все втрачено. Роулінг, як і в серії про Гаррі Поттера, чудово поєднує фантастичні елементи з глибокими емоціями та реальними проблемами, такими як переживання через розлучення батьків.
+
+«Різдвяна свинка» — це книга, що здатна торкнутися серця і дітей, і дорослих. Вона створена для того, щоб нагадати нам про важливість тих речей, що справді мають значення в житті, і вчить вірити в чудеса, навіть коли на перший погляд здається, що їх уже не існує. Ідеальна книга для сімейного читання на Різдво, яка принесе радість і тепло в будь-яку оселю.
+
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>                    
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="https://book-ye.com.ua/upload/resize_cache/iblock/2a4/230_355_1/6daa86b5_1308_11ed_8173_0050568ef5e6_ae6ed2ce_1309_11ed_8173_0050568ef5e6.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title text-wrap">Іди туди, де страшно. І матимеш те,...</h5>
+                    <div class="accordion" id="accordionExample2">
+                        <div class="accordion-item">
+                          <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo2" aria-expanded="true" aria-controls="collapseTwo2">
+                              Деталі книги
+                            </button>
+                          </h2>
+                          <div id="collapseTwo2" class="accordion-collapse collapse" data-bs-parent="#accordionExample2">
+                            <div class="accordion-body text-wrap">
+                              <strong>This is the second item's accordion body.</strong> Текст відкривається вниз, щоб все було видно одразу.
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="https://book-ye.com.ua/upload/resize_cache/iblock/78c/230_355_1/43390f0f_9797_11ef_81b3_005056857596_b6f42790_9797_11ef_81b3_005056857596.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title text-wrap">451° за Фаренгейтом (Горизонти фантастики)</h5>
+                    <div class="accordion" id="accordionExample3">
+                        <div class="accordion-item">
+                          <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree3" aria-expanded="true" aria-controls="collapseThree3">
+                              Деталі книги
+                            </button>
+                          </h2>
+                          <div id="collapseThree3" class="accordion-collapse collapse" data-bs-parent="#accordionExample3">
+                            <div class="accordion-body text-wrap">
+                                «451° за Фаренгейтом» Рея Бредбері — це культовий роман, який змушує не лише захоплюватися, але й серйозно задуматися над життєво важливими темами. В умовах тотальної цензури і контролю, де книги заборонені, а їх знищення є повсякденною нормою, автор створює зворушливу та тривожну картину світу, в якому відсутність свободи вираження та доступу до знань стає прямою загрозою самому людському існуванню.
+
+                                Головний герой, Ґай Монтеґ, спочатку є частиною цього системного механізму, сліпо виконуючи накази і займаючись знищенням книг. Однак його зустріч із Кларіс, дівчиною, що ставить питання про сенс життя і цінність незалежних думок, стає каталізатором змін у його свідомості. Вона відкриває йому нові горизонти мислення, і Ґай починає усвідомлювати, що свобода думки і доступ до знань — це не просто привілей, а основа людської гідності.
+                                
+                                Книга піднімає актуальні питання про обмеження свободи, маніпуляції через контроль інформації та суспільний апатизм, що залишається надзвичайно актуальними навіть у сучасному світі. Бредбері показує, як небезпечно можна потрапити в пастку однорідних поглядів, коли відсутність альтернатив і заборона на самостійне мислення стають нормою.
+                                
+                                «451° за Фаренгейтом» — це не просто фантастика. Це глибокий філософський твір, який закликає до боротьби за збереження свободи слова і думки, щоб не втратити нашу людяність у світі, де контроль і маніпуляції можуть повністю поглинути індивідуальність.
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="https://book-ye.com.ua/upload/iblock/b34/eaa4f623_cc8b_11ed_8182_00505684ea69_c3a671ab_3536_11ef_81a2_005056857596.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title text-wrap">Пес Патрон та Шкарпетковий монстр. Книга 1</h5>
+                    <div class="accordion" id="accordionExample4">
+                        <div class="accordion-item">
+                          <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour4" aria-expanded="true" aria-controls="collapseFour4">
+                              Деталі книги
+                            </button>
+                          </h2>
+                          <div id="collapseFour4" class="accordion-collapse collapse" data-bs-parent="#accordionExample4">
+                            <div class="accordion-body text-wrap">
+                                «Пес Патрон та Шкарпетковий монстр. Книга 1» — це захопливий комікс, який не тільки розповідає про нові пригоди знаменитого пса-сапера Патрона, а й дарує читачам унікальну можливість поринути в світ, де тварини стають героями, готовими боротися за мир і безпеку. Патрон, який вже завоював серця українців завдяки своїй сміливості та відвазі, тут стає справжнім рятівником, який протистоїть загрозі в обличчі інопланетного монстра.
+
+                                Ілюстрації в коміксі яскраві та емоційно насичені, вони відмінно передають атмосферу фантастичних пригод, додаючи динаміки та гумору в події. Сюжет не лише забавний і захоплюючий, але й спонукає до глибших роздумів про відвагу, дружбу та необхідність захищати рідну землю.
+                                
+                                Особливим акцентом є той факт, що прибуток від продажу цієї книги йде на благодійні цілі, що робить її підтримку ще більш значущою. Це не просто цікава книга для дітей і дорослих, а й можливість допомогти тим, хто потребує допомоги в цей складний час.
+                                
+                                «Пес Патрон та Шкарпетковий монстр» — це не лише історія про собаку, а й потужне нагадування про важливість героїзму в найскладніші моменти нашої історії.
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="https://book-ye.com.ua/upload/resize_cache/iblock/6b4/520_860_1/c5925a66_4163_11ec_8154_0050568ef5e6_21950598_9de6_11ef_81b4_005056857596.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title text-wrap">Різдвозавр та список Нечемнюхів. Книга 3</h5>
+                    <div class="accordion" id="accordionExample5">
+                        <div class="accordion-item">
+                          <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive5" aria-expanded="true" aria-controls="collapseFive5">
+                              Деталі книги
+                            </button>
+                          </h2>
+                          <div id="collapseFive5" class="accordion-collapse collapse" data-bs-parent="#accordionExample5">
+                            <div class="accordion-body text-wrap">
+                                Це чарівна історія, яка ідеально підходить для зимового святкового настрою. Вона належить до серії книг про Різдвозавра — доброго та веселого персонажа, який допомагає дітям отримати свої різдвяні подарунки, навіть якщо вони були не дуже слухняними.
+
+                                У книзі йдеться про те, як Санта створює два списки: для чемних діток і для Нечемнюхів. Останні мають серйозний ризик не отримати подарунків, якщо їхній вчинки за рік не були на належному рівні. Але саме тоді на допомогу приходить Різдвозавр, який допомагає Нечемнюхам виправитися, стати добрими й отримати подарунки замість вугілля.
+                                
+                                Ця історія не лише розважальна, але й має глибокий філософський підтекст. Вона навчить дітей важливості виправлення своїх помилок, того, що кожен заслуговує на другий шанс і що чудеса можливі навіть у найскладніші часи.
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="https://book-ye.com.ua/upload/iblock/085/e2b90a02_3dea_11ef_81a3_005056857596_d2976cf5_b229_11ef_81b5_005056857596.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title text-wrap">Залізний генерал. Уроки людяності</h5>
+                    <div class="accordion" id="accordionExample6">
+                        <div class="accordion-item">
+                          <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix6" aria-expanded="true" aria-controls="collapseSix6">
+                              Деталі книги
+                            </button>
+                          </h2>
+                          <div id="collapseSix6" class="accordion-collapse collapse" data-bs-parent="#accordionExample6">
+                            <div class="accordion-body text-wrap">
+                                це глибокий і вражаючий погляд на одну з найбільших постатей сучасної української історії, Валерія Залужного, Головнокомандувача Збройних Сил України. Цей літературний проєкт не є лише біографією чи військовою хронікою, а скоріше комплексним портретом людини, яка стала символом мужності, стійкості та стратегії в умовах надзвичайно складних випробувань.
+
+                                Книга надає унікальний погляд на життєвий шлях і професіоналізм Залужного, його роль у військових операціях і управлінні українськими військами під час російської агресії. Долгоновська не лише висвітлює його військові досягнення, але й розкриває глибину його особистості — його рішучість, розуміння людської природи та здатність до ефективного лідерства в екстремальних ситуаціях.
+                                
+                                Ця книга є цінним джерелом для тих, хто хоче краще зрозуміти ключову фігуру національного спротиву і побачити, як внутрішня сила та людяність переплітаються з військовим генієм.
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="https://book-ye.com.ua/upload/iblock/899/29d06f38_1de7_11eb_813e_000c29ae1566_fcbbd1ed_1de8_11eb_813e_000c29ae1566.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title text-wrap">Коли сніг пахне мандаринками</h5>
+                    <div class="accordion" id="accordionExample7">
+                        <div class="accordion-item">
+                          <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven7" aria-expanded="true" aria-controls="collapseSeven7">
+                              Деталі книги
+                            </button>
+                          </h2>
+                          <div id="collapseSeven7" class="accordion-collapse collapse" data-bs-parent="#accordionExample7">
+                            <div class="accordion-body text-wrap">
+                                Збірка новорічних розповідей «Коли сніг пахне мандаринками» — це чудова книга, яка подарує вам справжню святкову атмосферу. Вона створена для того, щоб підняти настрій, зануривши у магію Різдва і зимових свят. Книга, яка стане ідеальним вибором для дітей, а також для дорослих, які зберегли в собі романтичне ставлення до свят.
+
+                                У цій збірці ви знайдете низку оповідань сучасних українських письменників, які розповідають про пригоди підлітків на порозі Різдва. Герої проходять через різні життєві ситуації, іноді непередбачувані та складні, але саме в цей святковий час, коли здається, що надії більше немає, відбуваються справжні дива.
+                                
+                                Ця книга дозволяє поринути у спогади про дитинство, святкові моменти і новорічні чудеса, коли кожен чекає на подарунки, а за вікном падає сніг. Вона стане чудовим подарунком на свята, а її історії наповнять вас теплом і гармонією.
+                                
+                                Якщо ви шукаєте книгу для зимового настрою або хочете подарувати її близьким, «Коли сніг пахне мандаринками» стане відмінним вибором.
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="https://book-ye.com.ua/upload/iblock/5dd/c3b74faf_506d_11ed_8175_0050568ef5e6_63742345_5150_11ed_8175_0050568ef5e6.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title text-wrap">6 хвилин. Щоденник, який змінить ваше життя (пудровий)</h5>
+                    <div class="accordion" id="accordionExample8">
+                        <div class="accordion-item">
+                          <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEight8" aria-expanded="true" aria-controls="collapseEight8">
+                              Деталі книги
+                            </button>
+                          </h2>
+                          <div id="collapseEight8" class="accordion-collapse collapse" data-bs-parent="#accordionExample2">
+                            <div class="accordion-body text-wrap">
+                              <strong>«6 хвилин. Щоденник, який змінить ваше життя (пудровий)» від Домініка Спенста</strong> Це практичний і елегантний інструмент для тих, хто хоче змінити своє життя, але не знає, з чого почати. Щоденник допоможе вам приділяти лише 6 хвилин на день: 3 хвилини вранці і 3 ввечері, щоб сформувати корисні звички, які приведуть до гармонії та щастя.
+
+                              Цей щоденник допомагає структурувати думки, планувати день, відзначати досягнення і зосереджуватися на найважливішому. Випробувані методи дозволяють робити маленькі, але впевнені кроки до своїх цілей, допомагаючи вам втілювати зміни вже сьогодні, а не відкладати на потім.
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="https://book-ye.com.ua/upload/iblock/6d4/ada9ede0_b863_11ef_81b5_005056857596_f12ad105_b867_11ef_81b5_005056857596.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title text-wrap">Кохання. Книга 1 (Twisted)</h5>
+                    <div class="accordion" id="accordionExample9">
+                        <div class="accordion-item">
+                          <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNine9" aria-expanded="false" aria-controls="collapseNine9">
+                              Деталі книги
+                            </button>
+                          </h2>
+                          <div id="collapseNine9" class="accordion-collapse collapse" data-bs-parent="#accordionExample3">
+                            <div class="accordion-body text-wrap">
+                              <strong>«Кохання. Книга 1 (Twisted)» від Ани Хван</strong> Це захоплюючий роман, який поєднує емоційну глибину і напружену хімію між героями. Алекс Волков, холодний і раціональний, несподівано опиняється відповідальним за свою молодшу сестру найкращого друга, Аву Чен. Ава, з її сонячним характером і внутрішніми демонами, кидає йому виклик, ставши як джерелом зцілення, так і джерелом напруги. Їхні стосунки переплітаються з темами вибору, прощення та боротьби з внутрішніми страхами, додаючи гостроти і захоплення. Цей роман підкорює своєю непередбачуваністю та інтенсивністю почуттів, ставши ідеальним вибором для тих, хто любить сучасні романи з елементами інтриги та саспенсу.
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="comics">
+        <h2>Комікси</h2>
+        <div class="card-container" id="dragContainer">
+            <div class="card">
+                <img src="https://book-ye.com.ua/upload/iblock/256/f13e2a19_7a52_11ee_818c_00505684ea69_29e3c5bc_fe49_11ee_819b_005056857596.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title text-wrap">Замок тварин. Книга 2. Зимові маргаритки</h5>
+                    <div class="accordion" id="accordionExample10">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne10" aria-expanded="false" aria-controls="collapseOne10">
+                                    Деталі книги
+                                </button>
+                            </h2>
+                            <div id="collapseOne10" class="accordion-collapse collapse" data-bs-parent="#accordionExample10">
+                                <div class="accordion-body text-wrap">
+                                    <strong>«Замок тварин. Книга 2. Зимові маргаритки»</strong> Це драматичний комікс, що піднімає важливі питання про диктатуру, тоталітаризм і боротьбу за свободу. Тварини на фермі живуть під тиранією бика Сильвіо, який запровадив жорсткі правила, але вони вирішують чинити спротив через страйки та відмову підкорятися. В умовах жорстокої зими і постійних випробувань вони повинні вирішити, чи можливо мирно боротися за свої права чи їм доведеться вдатися до насильства. Ця книга, насичена соціальною алегорією, стане чудовим вибором для любителів глибоких сатиричних історій, як «Колгосп тварин» Орвелла.
+                                </div>
+                            </div>
+                        </div>
+                    </div>                    
+                </div>
+            </div>
+        
+            <div class="card">
+                <img src="https://book-ye.com.ua/upload/iblock/83a/1289d7c3_d8d4_11ef_81b7_005056857596_a67872f8_d8d4_11ef_81b7_005056857596.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title text-wrap">Формоза. Том 1. Хроніки чаювання</h5>
+                    <div class="accordion" id="accordionExample11">
+                        <div class="accordion-item">
+                          <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo11" aria-expanded="false" aria-controls="collapseTwo11">
+                              Деталі книги
+                            </button>
+                          </h2>
+                          <div id="collapseTwo11" class="accordion-collapse collapse" data-bs-parent="#accordionExample11">
+                            <div class="accordion-body text-wrap">
+                              <strong>Про книжку "Формоза. Том 1. Хроніки чаювання"</strong> Це комікс, що переносить читачів у дивовижний світ Формози, де переплітаються реальні історії та магія чаю. У цьому томі розповідається про незвичні пригоди героїв, які досліджують загадкові традиції та культуру чаювання, що приховують неймовірні таємниці. Поєднуючи елементи фентезі та історії, комікс пропонує унікальну атмосферу, де кожен момент приносить нові відкриття та пригоди.
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="card">
+                <img src="https://book-ye.com.ua/upload/iblock/beb/2a89f7aa_2407_11ef_81a1_005056857596_045bd0c6_2408_11ef_81a1_005056857596.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title text-wrap">Воля. Том 3</h5>
+                    <div class="accordion" id="accordionExample12">
+                        <div class="accordion-item">
+                          <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree12" aria-expanded="false" aria-controls="collapseThree12">
+                              Деталі книги
+                            </button>
+                          </h2>
+                          <div id="collapseThree12" class="accordion-collapse collapse" data-bs-parent="#accordionExample12">
+                            <div class="accordion-body text-wrap">
+                              <strong>«Воля. Том 3»</strong> Це захоплюючий комікс, який поєднує альтернативну історію та фантастику. У ньому Гетьман Скоропадський розробляє секретний оборонний проєкт «Голіаф», в той час як Володимир Вернадський розкриває страшну таємницю некро-технологій, які червоні використовують для створення армії зомбі. Герої вирушають у небезпечну подорож до серця більшовицької імперії, щоб зупинити навалу ворогів. Цей комікс сподобається шанувальникам історії, інтриг і фантастичних пригод.
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="card">
+                <img src="https://book-ye.com.ua/upload/resize_cache/iblock/63b/520_860_1/505dbe54_6ea7_11ef_81ad_005056857596_cfa76eab_6ea7_11ef_81ad_005056857596.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title text-wrap">Хорімія. Том 02</h5>
+                    <div class="accordion" id="accordionExample13">
+                        <div class="accordion-item">
+                          <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour13" aria-expanded="false" aria-controls="collapseFour13">
+                              Деталі книги
+                            </button>
+                          </h2>
+                          <div id="collapseFour13" class="accordion-collapse collapse" data-bs-parent="#accordionExample13">
+                            <div class="accordion-body text-wrap">
+                              <strong>«Хорімія. Том 02»</strong> Це зворушлива манга, яка розповідає про двох старшокласників, Хорі та Міямуру, котрі намагаються приховати свої справжні яскраві та темні сторони. Хорі виглядає ідеальною ученицею, але вдома вона звичайна дівчина, що піклується про брата, а Міямура, на перший погляд тихий і непомітний, приховує свою чуйність і цікавість. Їхня дружба розцвітає, коли вони починають відкриватися один одному, вчитися бути справжніми і приймати себе такими, якими вони є.
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="card">
+                <img src="https://book-ye.com.ua/upload/iblock/429/16da1c35_4f36_11ea_8127_000c29ae1566_47f9de5f_4f38_11ea_8127_000c29ae1566.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title text-wrap">Чі. Життя однієї киці. Том 2</h5>
+                    <div class="accordion" id="accordionExample14">
+                        <div class="accordion-item">
+                          <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive14" aria-expanded="false" aria-controls="collapseFive14">
+                              Деталі книги
+                            </button>
+                          </h2>
+                          <div id="collapseFive14" class="accordion-collapse collapse" data-bs-parent="#accordionExample14">
+                            <div class="accordion-body text-wrap">
+                              <strong>«Чі. Життя однієї киці. Том 2»</strong> Продовжує захоплюючу історію маленького кошеня, яке знайшло люблячу родину та вперше почувається в безпеці. Цей том дарує ще більше кумедних і зворушливих моментів, адже Чі, хоч і стала частиною родини, продовжує потрапляти в цікаві та смішні ситуації. Манґа наповнена теплом і добротою, що робить її чудовим вибором для дітей і підлітків.
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="card">
+                <img src="https://book-ye.com.ua/upload/resize_cache/iblock/b93/520_860_1/7f871a90_bfc5_11eb_814a_0050568ef5e6_7c696832_4ada_11ed_8175_0050568ef5e6.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title text-wrap">Химерна планета. Книга перша</h5>
+                    <div class="accordion" id="accordionExample15">
+                        <div class="accordion-item">
+                          <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix15" aria-expanded="false" aria-controls="collapseSix15">
+                              Деталі книги
+                            </button>
+                          </h2>
+                          <div id="collapseSix15" class="accordion-collapse collapse" data-bs-parent="#accordionExample15">
+                            <div class="accordion-body text-wrap">
+                              <strong>«Химерна планета. Книга перша» Нейтана Пайла</strong> Це комікс, який поєднує реальність з абсурдом, перетворюючи повсякденне життя на сюрреалістичний театр. Автор майстерно використовує мінімалізм у словах і образах, створюючи смішні, але глибокі ситуації, що відображають наше власне життя. Ця книга стане чудовим вибором для тих, хто шукає нестандартні комікси з гумором та візуальним задоволенням.
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="card">
+                <img src="https://book-ye.com.ua/upload/iblock/e37/a878894c_6eab_11ef_81ad_005056857596_63362693_a73f_11ef_81b5_005056857596.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title text-wrap">Песик, який пильнує зірки. Том 1</h5>
+                    <div class="accordion" id="accordionExample16">
+                        <div class="accordion-item">
+                          <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven16" aria-expanded="false" aria-controls="collapseSeven16">
+                              Деталі книги
+                            </button>
+                          </h2>
+                          <div id="collapseSeven16" class="accordion-collapse collapse" data-bs-parent="#accordionExample16">
+                            <div class="accordion-body text-wrap">
+                              <strong>Манґа «Песик, який пильнує зірки. Том 1»</strong> Pозповідає про глибоку і зворушливу історію вірності маленького песика, який не залишив свого господаря після його смерті і помер поруч з ним через кілька місяців. Це суміш філософської притчі та графічного роману, що торкається тем дружби, втрат і надії, привертаючи увагу як дітей, так і дорослих.
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="card">
+                <img src="https://book-ye.com.ua/upload/iblock/8c7/665648cc_718d_11ee_818c_00505684ea69_21801220_7191_11ee_818c_00505684ea69.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title text-wrap">Скотт Пілігрим. Том 5. Скотт Пілігрим проти всесвіту</h5>
+                    <div class="accordion" id="accordionExample17">
+                        <div class="accordion-item">
+                          <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEight17" aria-expanded="false" aria-controls="collapseEight17">
+                              Деталі книги
+                            </button>
+                          </h2>
+                          <div id="collapseEight17" class="accordion-collapse collapse" data-bs-parent="#accordionExample17">
+                            <div class="accordion-body text-wrap">
+                              <strong>«Скотт Пілігрим. Том 5. Скотт Пілігрим проти всесвіту»</strong> продовжує епічну історію, де головний герой стикається з новими випробуваннями та потужними супротивниками — колишніми дівчатами Рамони, які володіють армією роботів. Книга вражає динамікою, іронією та емоційною глибиною, піднімаючи теми особистих бажань, стосунків і самовдосконалення, адже Скотт змушений не тільки боротися фізично, а й впоратися зі своїми внутрішніми страхами та невпевненістю.
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="card">
+                <img src="https://book-ye.com.ua/upload/resize_cache/iblock/33c/520_860_1/9c0a841c_f157_11ec_8172_0050568ef5e6_b9bd8463_f1f9_11ec_8172_0050568ef5e6.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title text-wrap">Привид Києва. Книга 1</h5>
+                    <div class="accordion" id="accordionExample18">
+                        <div class="accordion-item">
+                          <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNine18" aria-expanded="false" aria-controls="collapseNine18">
+                              Деталі книги
+                            </button>
+                          </h2>
+                          <div id="collapseNine18" class="accordion-collapse collapse" data-bs-parent="#accordionExample18">
+                            <div class="accordion-body text-wrap">
+                              <strong>«Привид Києва. Книга 1»</strong> Це комікс, створений японським манґакою Мацудою Джюко, що розповідає про мужніх українських пілотів, які стали символом незламності під час війни. Книга вражає деталями подвигів льотчиків, які знищили численні ворожі літаки, і стає чудовим способом обговорити з дітьми важливі теми героїзму та мужності, а також дозволяє глибше зануритися в історію оборони Києва.
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+            <div class="row"> 
+                <div class="container"> 
+                  <!-- Ваш вміст сторінки тут --> 
+              </div> 
+           
+              <footer> 
+                  <!-- Логотип і назва в лівому верхньому куті футера --> 
+                  <img src="logo.png" alt="Логотип"> 
+                  <h1>TeensInDanger</h1> 
+                  <div class="footer-container"> 
+                      <div class="footer-column"> 
+                          <h3>Контактна інформація</h3> 
+                          <p>Адреса: вул. Малинова, 1, Львів, Україна</p> 
+                          <p>Телефон: <a href="tel:+380994670464">+380 99 46 70 464</a></p> 
+                      </div> 
+                      <div class="footer-column"> 
+                          <h3>Номери екстрених служб</h3> 
+                          <p>Поліція: <a href="tel:102">102</a></p> 
+                          <p>Пожежна служба: <a href="tel:101">101</a></p> 
+                          <p>Швидка допомога: <a href="tel:103">103</a></p> 
+                          <p>Служба газу: <a href="tel:104">104</a></p> 
+                          <p>Психологічна допомога: <a href="tel:0800211444">0800 211 444</a></p> 
+                      </div> 
+                  </div> 
+           
+                  <!-- Виведення тексту "Всі права захищені" зліва --> 
+                  <p>&copy; 2025 TeensInDanger. Всі права захищені.</p> 
+              </footer> 
+              </div>
+        </div>
+        
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        const cardContainer = document.getElementById('dragContainer');
+        let isMouseDown = false;
+        let startX;
+        let scrollLeft;
+
+        cardContainer.addEventListener('mousedown', (e) => {
+            isMouseDown = true;
+            startX = e.pageX - cardContainer.offsetLeft;
+            scrollLeft = cardContainer.scrollLeft;
+            cardContainer.style.cursor = 'grabbing';
+        });
+
+        cardContainer.addEventListener('mouseleave', () => {
+            isMouseDown = false;
+            cardContainer.style.cursor = 'grab';
+        });
+
+        cardContainer.addEventListener('mouseup', () => {
+            isMouseDown = false;
+            cardContainer.style.cursor = 'grab';
+        });
+
+        cardContainer.addEventListener('mousemove', (e) => {
+            if (!isMouseDown) return;
+            e.preventDefault();
+            const x = e.pageX - cardContainer.offsetLeft;
+            const walk = (x - startX) * 3;
+            cardContainer.scrollLeft = scrollLeft - walk;
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+

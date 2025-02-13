@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Перша Медична Допомога</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4; /* Світло-сірий фон */
+            color: #333; /* Темно-сірий текст */
+        }
+
+        /* Заголовок */
+        .header {
+            text-align: center;
+            padding: 50px 0;
+            background-color: #F44336; /* червоний */
+            color: white;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            margin-top: 10px;
+        }
+
+        /* Основна частина */
+        .content {
+            margin: 30px auto;
+            max-width: 1200px;
+            padding: 20px;
+            background-color: #fff; /* білий фон для контенту */
+            border-radius: 8px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            border: 2px solid #b4b4b4;
+        }
+
+        .content h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: #F44336; /* червоний */
+        }
+
+        .content p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .image-container {
+            text-align: right;
+            margin-top: 20px;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        /* Панель навігації */
+        .nav-bar {
+            position: fixed;
+            top: 20%;
+            left: 0;
+            background-color: #2c3e50; /* темно-синій */
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 1000;
+            width: 200px; /* Задано ширину */
+            transition: left 0.3s ease, width 0.3s ease; /* Плавний перехід ширини */
+        }
+
+        .nav-bar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-bar ul li {
+            margin: 8px 0;
+            font-size: 1.2rem;
+        }
+
+        .nav-bar ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+            .nav-bar ul li a:hover {
+            color: #F44336; /* червоний */
+        }
+
+
+        /* Стилізація для кнопки */
+        #toggle-nav-button {
+            font-size: 1rem;
+            padding: 5px 10px;
+            border-radius: 5px;
+            background-color: #F44336;
+            color: white;
+            border: none;
+        }
+
+        #toggle-nav-button:hover {
+            background-color: #d32f2f; /* темніший червоний */
+        }
+
+        /* Стилізація для мобільних */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .header p {
+                font-size: 1rem;
+            }
+
+            .content h2 {
+                font-size: 1.5rem;
+            }
+
+            .content p {
+                font-size: 1rem;
+            }
+
+            .nav-bar {
+                left: -5px;
+                top: -5px;
+                width: auto;
+                size: -20%;
+            }
+
+            .nav-bar ul li {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+    .nav-bar {
+        display: none;
+    }
+}
+        footer {
+    background-color: #2c3e50;
+    padding: 30px 20px; /* Р—РјРµРЅС€РµРЅС– РІС–РґСЃС‚СѓРїРё РґР»СЏ С„СѓС‚РµСЂР° */
+    color: #ecf0f1;
+    font-size: 14px;
+    max-width: 800px; /* Р—РјРµРЅС€РµРЅР° С€РёСЂРёРЅР° С„СѓС‚РµСЂР° */
+    margin: 0 auto; /* Р¦РµРЅС‚СЂСѓС”РјРѕ С„СѓС‚РµСЂ */
+    border-radius: 15px; /* Р—Р°РєСЂСѓРіР»РµРЅС– РєСѓС‚Рё */
+    box-sizing: border-box;
+    position: relative; /* Р”Р»СЏ РїРѕР·РёС†С–СЋРІР°РЅРЅСЏ Р»РѕРіРѕС‚РёРїСѓ */
+}
+
+footer img {
+    width: 50px; /* Р—РјРµРЅС€РµРЅРёР№ СЂРѕР·РјС–СЂ Р»РѕРіРѕС‚РёРїСѓ */
+    height: 50px;
+    margin-right: 15px;
+    position: absolute;
+    top: 15px; /* Р—РјРµРЅС€РµРЅР° РІС–РґСЃС‚Р°РЅСЊ РІС–Рґ РІРµСЂС…РЅСЊРѕРіРѕ РєСЂР°СЋ */
+    left: 20px;
+}
+
+footer h1 {
+    font-size: 20px; /* Р—РјРµРЅС€РµРЅРёР№ СЂРѕР·РјС–СЂ РЅР°Р·РІРё */
+    margin: 0;
+    position: absolute;
+    top: 35px; /* Р—СЃСѓРІ РІРЅРёР· РґР»СЏ РЅР°Р·РІРё, С‰РѕР± РІРѕРЅР° РЅРµ РїРµСЂРµРєСЂРёРІР°Р»Р° Р»РѕРіРѕС‚РёРї */
+    left: 80px; /* Р’РёСЂС–РІРЅСЋРІР°РЅРЅСЏ Р· Р»РѕРіРѕС‚РёРїРѕРј */
+    color: #ecf0f1;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: 60px; /* Р—РјРµРЅС€РµРЅР° РІС–РґСЃС‚Р°РЅСЊ РїС–СЃР»СЏ Р»РѕРіРѕС‚РёРїСѓ */
+}
+
+.footer-column {
+    width: 48%;
+    margin-bottom: 15px; /* Р—РјРµРЅС€РµРЅРёР№ РЅРёР¶РЅС–Р№ РІС–РґСЃС‚СѓРї */
+    text-align: left; /* Р’РёСЂС–РІРЅСЋРІР°РЅРЅСЏ С‚РµРєСЃС‚Сѓ РІ РєРѕР»РѕРЅС†С– */
+}
+
+footer p {
+    text-align: left;
+    font-size: 12px; /* Р—РјРµРЅС€РµРЅРёР№ СЂРѕР·РјС–СЂ С€СЂРёС„С‚Сѓ */
+    margin-top: 20px;
+    padding-left: 10px; /* Р’С–РґСЃС‚СѓРї Р·Р»С–РІР° */
+}
+
+footer .footer-column h3 {
+    font-size: 16px; /* РўСЂРѕС€РєРё Р±С–Р»СЊС€РёР№ СЂРѕР·РјС–СЂ Р·Р°РіРѕР»РѕРІРєС–РІ */
+    color: #ecf0f1;
+    margin-bottom: 5px; /* Р—РјРµРЅС€РµРЅРёР№ РІС–РґСЃС‚СѓРї РјС–Р¶ Р·Р°РіРѕР»РѕРІРєРѕРј С‚Р° С‚РµРєСЃС‚РѕРј */
+}
+
+footer .footer-column p {
+    font-size: 14px;
+    color: #bdc3c7;
+}
+
+@media (max-width: 768px) {
+    footer {
+        padding: 20px 10px; /* Р—РјРµРЅС€РµРЅС– РІС–РґСЃС‚СѓРїРё РґР»СЏ РјРѕР±С–Р»СЊРЅРёС… РїСЂРёСЃС‚СЂРѕС—РІ */
+    }
+
+    footer img {
+        width: 40px;
+        height: 40px;
+    }
+
+    footer h1 {
+        font-size: 18px;
+    }
+
+    .footer-column {
+        width: 100%;
+    }
+
+    footer p {
+        font-size: 12px;
+    }
+}
+
+/* РђРЅС–РјР°С†С–СЏ РґР»СЏ РєРЅРѕРїРѕРє */
+.footer-column p a {
+    transition: all 0.3s ease;
+}
+
+.footer-column p a:hover {
+    color: #3498db;
+    transform: scale(1.05);
+}
+
+h1.fs-1 {
+    font-size: 4rem; /* Р—Р±С–Р»СЊС€СѓС”РјРѕ СЂРѕР·РјС–СЂ С€СЂРёС„С‚Сѓ */
+}
+    </style>
+</head>
+<body>
+
+    <div class="row">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="index.html">
+                <div class="logo1">
+                <img src="logo.png" class="d-block" style="width: 60px; height: 60px;" alt="Логотип">
+                </div>
+            </a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          Екстренні ситуації
+                        </a>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" href="rules.HTML">Правила поведінки</a></li>
+                          <li><a class="dropdown-item" href="cloth.html">Тактичний одяг</a></li>
+                          <li><a class="dropdown-item" href="med.html">Перша домедична допомога</a></li>
+                          <li><a class="dropdown-item" href="bomb.html">Вибухові пристрої</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          Ментальне здоров'я
+                        </a>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" href="health.html">Що таке ментальне здоров'я?</a></li>
+                          <li><a class="dropdown-item" href="film.html">Фільми та серіали</a></li>
+                          <li><a class="dropdown-item" href="book.html">Книги та комікси</a></li>
+                          <li><a class="dropdown-item" href="music/music.html">Музика</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          Фізичне здоров'я
+                        </a>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" href="sport.html">Руханки</a></li>
+                          <li><a class="dropdown-item" href="food.html">Правила харчування</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="educ.html">Освіта</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">Про нас</a>
+                    </li>
+                </ul>
+              </div>
+            </div>
+          </nav>
+    </div>
+
+    <!-- Заголовок -->
+    <div class="header">
+        <h1>Перша Медична Допомога</h1>
+        <p>Ваша допомога в критичних ситуаціях</p>
+    </div>
+
+    <!-- Панель навігації -->
+    <div class="nav-bar">
+        <button id="toggle-nav-button" class="btn">Меню</button>
+        <ul>
+            <li><a href="#overview">Огляд</a></li>
+            <li><a href="#types">Типи травм</a></li>
+            <li><a href="#wounds">Рани та кровотечі</a></li>
+            <li><a href="#fractures">Переломи</a></li>
+            <li><a href="#burns">Опіки</a></li>
+            <li><a href="#choking">Задуха</a></li>
+            <li><a href="#shock">Шок</a></li>
+            <li><a href="#drowning">Утоплення</a></li>
+            <li><a href="#emergency">Екстрені служби</a></li>
+        </ul>
+    </div>
+
+    <!-- Основний контент -->
+    <div class="content">
+        <!-- Огляд -->
+        <section id="overview" class="section">
+            <h2>Огляд першої медичної допомоги</h2>
+            <p>Перша медична допомога (ПМД) — це комплекс екстрених заходів, які сприяють стабілізації стану людини до того, як на місце події прибудуть професійні медики. Важливо вчасно оцінити ситуацію та надавати допомогу без паніки.</p>
+        </section>
+
+        <!-- Типи травм -->
+        <section id="types" class="section">
+            <h2>Типи травм</h2>
+            <p>Травми можуть бути різними за тяжкістю та локалізацією. Знання типів травм та методів їх лікування допомагає вчасно надати допомогу.</p>
+
+            <p>Основні типи травм включають:</p>
+            <ul>
+                <li>Закриті травми (наприклад, удари, розтягнення, забої).</li>
+                <li>Відкриті травми (порізи, проколи, порушення цілісності шкіри).</li>
+                <li>Переломи.</li>
+                <li>Опіки.</li>
+                <li>Отруєння.</li>
+                <li>Порушення дихання та серцевої діяльності.</li>
+                <li>Утоплення.</li>
+            </ul>
+        </section>
+
+        <!-- Рани та кровотечі -->
+        <section id="wounds" class="section">
+            <h2>Рани та кровотечі</h2>
+            <p>Кровотечі — це одна з найпоширеніших ситуацій, коли необхідно надати першу медичну допомогу. В залежності від типу кровотечі, дії можуть відрізнятися.</p>
+
+            <p>Основні типи кровотеч:</p>
+            <ul>
+                <li>Артеріальна кровотеча — яскрава червона кров, що б'є струменем.</li>
+                <li>Венозна кровотеча — темна кров, що витікає рівномірно.</li>
+                <li>Капілярна кровотеча — незначні порізи або садна.</li>
+            </ul>
+            <p>Для зупинки кровотечі можна використовувати перев'язки, джгути, компреси та інші методи.</p>
+            <div class="image-container">
+                <img src="src/wounds.jpeg" alt="Рани та кровотечі">
+            </div>
+        </section>
+
+        <!-- Переломи -->
+        <section id="fractures" class="section">
+            <h2>Переломи</h2>
+            <p>Перелом — це порушення цілісності кістки, яке зазвичай супроводжується болем, набряком і зміною форми кінцівки.</p>
+
+            <p>Дії при переломах:</p>
+            <ul>
+                <li>Забезпечте нерухомість пошкодженої частини тіла.</li>
+                <li>При необхідності накладіть шину або імпровізовану пов'язку.</li>
+                <li>При сильному болі дайте знеболювальне, якщо це дозволено.</li>
+            </ul>
+            <div class="image-container">
+                <img src="src/fractures.jpeg" alt="Переломи" width="600" height="600">
+            </div>
+        </section>
+
+        <!-- Опіки -->
+        <section id="burns" class="section">
+            <h2>Опіки</h2>
+            <p>Опіки виникають при контакті шкіри з високою температурою, хімічними речовинами чи електричним струмом.</p>
+
+            <p>Перша допомога при опіках:</p>
+            <ul>
+                <li>Охолодіть уражену ділянку холодною водою.</li>
+                <li>Накладіть стерильну пов'язку.</li>
+                <li>При серйозних опіках необхідно звертатися до лікаря.</li>
+            </ul>
+            <div class="image-container">
+                <iframe width="auto" height="360" src="https://www.youtube.com/embed/xCIVnK-m-UU?si=-0UD_LT9A1jZ8PhU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+        </section>
+
+        <!-- Задуха -->
+        <section id="choking" class="section">
+            <h2>Задуха</h2>
+            <p>Задуха відбувається через блокування дихальних шляхів стороннім предметом. Важливо діяти швидко, щоб звільнити дихальні шляхи.</p>
+
+            <p>Перша допомога при задусі:</p>
+            <ul>
+                <li>Використовуйте прийом Геймліха для виведення предмета.</li>
+                <li>Якщо потерпілий не може дихати, потрібно звертатися до лікаря.</li>
+            </ul>
+            <div class="image-container">
+                <img src="src/choking.jpeg
+                
+                " alt="Задуха" width="400" height="400">
+            </div>
+        </section>
+
+        <!-- Шок -->
+        <section id="shock" class="section">
+            <h2>Шок</h2>
+            <p>Шок — це стан, при якому організм не може забезпечити належний кровообіг. Це небезпечний стан, що вимагає негайної допомоги.</p>
+
+            <p>Перша допомога при шоку:</p>
+            <ul>
+                <li>Покласти потерпілого на горизонтальну поверхню.</li>
+                <li>Накрити теплою ковдрою.</li>
+                <li>При необхідності надавати штучне дихання.</li>
+            </ul>
+            <div class="image-container">
+                <img src="src/shock.jpg" alt="Шок">
+            </div>
+        </section>
+
+        <!-- Утоплення -->
+        <section id="drowning" class="section">
+            <h2>Утоплення</h2>
+            <p>Утоплення — це серйозне і небезпечне для життя стан, яке виникає через потрапляння води в дихальні шляхи.</p>
+
+            <p>Перша допомога при утопленні:</p>
+            <ul>
+                <li>Якщо потерпілий ще не втратив свідомість, витягніть його з води та надайте допомогу.</li>
+                <li>Забезпечте дихання за допомогою штучного дихання, якщо це необхідно.</li>
+                <li>Негайно зверніться за медичною допомогою.</li>
+            </ul>
+            <div class="image-container">
+                <img src="src/1.jpeg" alt="Утоплення1">
+                <img src="src/2.jpeg" alt="Утоплення2">
+                <img src="src/3.jpeg" alt="Утоплення3">
+                <img src="src/4.jpeg" alt="Утоплення4">
+            </div>
+        </section>
+
+        <!-- Екстрені служби -->
+        <section id="emergency" class="section">
+            <h2>Екстрені служби</h2>
+            <p>У випадку надзвичайної ситуації негайно телефонуйте за одним із наступних номерів:</p>
+            <ul>
+                <li><strong>101</strong> — Пожежна служба.</li>
+                <li><strong>102</strong> — Поліція.</li>
+                <li><strong>103</strong> — Швидка медична допомога.</li>
+                <li><strong>104</strong> — Служба газу.</li>
+            </ul>
+        </section>
+    </div>
+</div>
+</div>
+<div class="row"> 
+    <div class="container"> 
+      <!-- Ваш вміст сторінки тут --> 
+  </div> 
+
+  <footer> 
+      <!-- Логотип і назва в лівому верхньому куті футера --> 
+      <img src="logo.png" alt="Логотип"> 
+      <h1>TeensInDanger</h1> 
+      <div class="footer-container"> 
+          <div class="footer-column"> 
+              <h3>Контактна інформація</h3> 
+              <p>Адреса: вул. Малинова, 1, Львів, Україна</p> 
+              <p>Телефон: <a href="tel:+380994670464">+380 99 46 70 464</a></p> 
+          </div> 
+          <div class="footer-column"> 
+              <h3>Номери екстрених служб</h3> 
+              <p>Поліція: <a href="tel:102">102</a></p> 
+              <p>Пожежна служба: <a href="tel:101">101</a></p> 
+              <p>Швидка допомога: <a href="tel:103">103</a></p> 
+              <p>Служба газу: <a href="tel:104">104</a></p> 
+              <p>Психологічна допомога: <a href="tel:0800211444">0800 211 444</a></p> 
+          </div> 
+      </div> 
+
+      <!-- Виведення тексту "Всі права захищені" зліва --> 
+      <p>&copy; 2025 TeensInDanger. Всі права захищені.</p> 
+  </footer> 
+  </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Отримуємо елементи кнопки і списку навігації
+        const toggleButton = document.getElementById('toggle-nav-button');
+        const navList = document.querySelector('.nav-bar ul');
+    
+        // Додаємо обробник події для кнопки
+        toggleButton.addEventListener('click', () => {
+    navList.classList.toggle('d-none');
+    if (navList.classList.contains('d-none')) {
+        document.querySelector('.nav-bar').style.width = '85px'; // Зменшуємо ширину, коли меню приховане
+    } else {
+        document.querySelector('.nav-bar').style.width = '200px'; // Встановлюємо ширину назад
+    }
+});
+    </script>
+
+</body>
+</html>
